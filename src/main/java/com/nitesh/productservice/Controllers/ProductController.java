@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductController {
 
-    private ProductService productService;
+    private final ProductService productService;
 
     @Autowired
     ProductController(ProductService productService) {
@@ -23,6 +23,11 @@ public class ProductController {
     @GetMapping("")
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
+    }
+
+    @GetMapping("/category/{category}")
+    public List<Product> getAllCategoryProducts(@PathVariable("category") String category) {
+        return productService.getAllCategoryProducts(category);
     }
 
     @GetMapping("/{id}")
@@ -36,18 +41,18 @@ public class ProductController {
     }
 
     @PatchMapping("/{id}")
-    public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product product) {
-        return new Product();
+    public Product updateProduct(@PathVariable("id") Long id, @RequestBody FakeStoreProductDto product) {
+        return productService.updateProduct(id, product);
     }
 
     @PutMapping("/{id}")
-    public Product replaceProduct(@PathVariable("id") Long id, @RequestBody Product product) {
-        return null;
+    public Product replaceProduct(@PathVariable("id") Long id, @RequestBody FakeStoreProductDto product) {
+        return productService.replaceProduct(id, product);
     }
 
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable("id") Long id) {
-        return;
+        productService.deleteProduct(id);
     }
 
 }

@@ -57,4 +57,34 @@ public class FakeStoreProductService implements ProductService {
         return products;
     }
 
+    @Override
+    public Product updateProduct(Long id, FakeStoreProductDto product) {
+        System.out.println("https://fakestoreapi.com/products/" + id + " " + product.toString());
+        FakeStoreProductDto fakeStoreProduct = restTemplate.patchForObject("https://fakestoreapi.com/products/7" + id, product, FakeStoreProductDto.class);
+        return convertFakeStoreProductDtoToProduct(fakeStoreProduct);
+    }
+
+    @Override
+    public Product replaceProduct(Long id, FakeStoreProductDto product) {
+        restTemplate.put("https://fakestoreapi.com/products/" + id, product);
+        FakeStoreProductDto fakeStoreProduct = restTemplate.getForObject("https://fakestoreapi.com/products/" + id, FakeStoreProductDto.class);
+        return convertFakeStoreProductDtoToProduct(fakeStoreProduct);
+    }
+
+    @Override
+    public void deleteProduct(Long id) {
+        restTemplate.delete("https://fakestoreapi.com/products/" + id);
+    }
+
+    @Override
+    public List<Product> getAllCategoryProducts(String category) {
+        FakeStoreProductDto[] fakeStoreProducts = restTemplate.getForObject("https://fakestoreapi.com/products/category/" + category, FakeStoreProductDto[].class);
+        List<Product> products = new ArrayList<>();
+        if (fakeStoreProducts == null) return products;
+        for (FakeStoreProductDto productDto : fakeStoreProducts) {
+            products.add(convertFakeStoreProductDtoToProduct(productDto));
+        }
+        return products;
+    }
+
 }

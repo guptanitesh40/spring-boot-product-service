@@ -10,4 +10,16 @@ public class FakeStoreProductDto {
     private Float price;
     private String category;
     private String image;
+
+    @Override
+    public String toString() {
+        return "FakeStoreProductDto{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", category='" + category + '\'' +
+                ", image='" + image + '\'' +
+                '}';
+    }
 }
